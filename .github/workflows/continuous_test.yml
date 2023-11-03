@@ -16,6 +16,8 @@ jobs:
         uses: actions/checkout@v4
         with: 
           repository: eclipse/openmcx
+      - name: list files
+      - run: ls -la
       - name: build openmcx
         working-directory: openmcx
         run: ./build.sh    
