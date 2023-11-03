@@ -17,7 +17,7 @@ jobs:
         with: 
           repository: eclipse/openmcx
       - name: build openmcx
-        working-directory: ./openmcx
+        working-directory: openmcx
         run: ./build.sh    
         
           
