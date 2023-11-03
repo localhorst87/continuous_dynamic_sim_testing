@@ -1,0 +1,27 @@
+name: continuous-dynamic-simulation-testing
+on: push
+
+jobs:
+  run-simulation:
+    runs-on: ubuntu-20.04
+    steps:
+      - name: install openmcx prerequisites
+        run: |
+          sudo apt update
+          sudo apt install -y cmake git
+          sudo apt install -y build-essential
+          sudo apt install -y python-is-python3
+          sudo apt install -y libxml2-dev zlib1g-dev
+      - name: checkout openmcx
+        uses: actions/checkout@v4
+        with: 
+          repository: eclipse/openmcx
+      - name: build openmcx
+        working-directory: ./openmcx
+        run: ./build.sh    
+        
+          
+        
+      
+  
+  
