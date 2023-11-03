@@ -19,7 +19,13 @@ jobs:
           path: 'openmcx'
       - name: build openmcx
         working-directory: openmcx
-        run: ./build.sh    
+        run: ./build.sh
+      - name: checkout simulation data
+        uses: actions/checkout@v4
+        with: 
+          path: 'resources'
+            
+        
         
           
         
