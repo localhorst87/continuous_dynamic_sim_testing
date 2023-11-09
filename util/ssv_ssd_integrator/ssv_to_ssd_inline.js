@@ -65,8 +65,8 @@ for (let i = 0; i < parsedSsd["ssd:SystemStructureDescription"]["ssd:System"][0]
     ssdComponent["ssd:ParameterBindings"]["ssd:ParameterBinding"]["@_source"] = undefined;
 
     // include parameters inline
-    ssdComponent["ssd:ParameterBindings"]["ssd:ParameterBinding"]["ParameterValues"] = {"ssv:ParameterSet": undefined};
-    ssdComponent["ssd:ParameterBindings"]["ssd:ParameterBinding"]["ParameterValues"]["ssv:ParameterSet"] = parameterSet;
+    ssdComponent["ssd:ParameterBindings"]["ssd:ParameterBinding"]["ssd:ParameterValues"] = {"ssv:ParameterSet": undefined};
+    ssdComponent["ssd:ParameterBindings"]["ssd:ParameterBinding"]["ssd:ParameterValues"]["ssv:ParameterSet"] = parameterSet;
 }
 
 const newSsdString = writeSSD(parsedSsd);
