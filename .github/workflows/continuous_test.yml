@@ -5,6 +5,15 @@ jobs:
   run-simulation:
     runs-on: ubuntu-20.04
     steps:
+      - name: checkout simulation data
+        uses: actions/checkout@v4
+        with: 
+          path: 'simdata'
+      - name: integrate SSV in SSD
+        working-directory: simdata/util/ssv_ssd_integrator
+        run: |
+          ./install_prerequisites.sh
+          node ./ssv_to_ssd_inline.js -i ../../systems/dc_motor_system.ssd -o ../../systems/dc_motor_system.ssd
       - name: install openmcx prerequisites
         run: |
           sudo apt update
@@ -20,10 +29,11 @@ jobs:
       - name: build openmcx
         working-directory: openmcx
         run: ./build.sh
-      - name: checkout simulation data
-        uses: actions/checkout@v4
-        with: 
-          path: 'resources'
+      - name: run simulation
+        run: ./openmcx/install/openmcx ./simdata/systems/dc_motor_system.ssd --verbose --resultdir ./simdata/metadata/evaluation
+      - name: display results
+        working-directory: openmcx
+        run: cat ./simdata/metadata/evaluation/mechanics_res.csv
             
         
         
