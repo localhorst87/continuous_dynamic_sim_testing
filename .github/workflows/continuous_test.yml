@@ -33,7 +33,6 @@ jobs:
       - name: run simulation
         run: ./openmcx/install/openmcx ./simdata/systems/dc_motor_system.ssd --verbose --resultdir ./simdata/metadata/evaluation
       - name: display results
-        working-directory: openmcx
         run: cat ./simdata/metadata/evaluation/mechanics_res.csv
             
         
