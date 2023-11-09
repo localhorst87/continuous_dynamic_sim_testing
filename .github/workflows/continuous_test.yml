@@ -14,6 +14,7 @@ jobs:
         run: |
           ./install_prerequisites.sh
           node ./ssv_to_ssd_inline.js -i ../../systems/dc_motor_system.ssd -o ../../systems/dc_motor_system.ssd
+          cat ../../systems/dc_motor_system.ssd
       - name: install openmcx prerequisites
         run: |
           sudo apt update
