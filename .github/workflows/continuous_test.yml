@@ -23,17 +23,9 @@ jobs:
           sudo apt install -y python-is-python3
           sudo apt install -y libxml2-dev zlib1g-dev
       - name: checkout openmcx
-        uses: actions/checkout@v4
+        uses: localhorst87/run-openmcx
         with: 
-          repository: eclipse/openmcx
-          path: 'openmcx'
-      - name: build openmcx
-        working-directory: openmcx
-        run: ./build.sh
-      - name: run simulation
-        run: ./openmcx/install/openmcx ./simdata/systems/dc_motor_system.ssd --verbose --resultdir ./simdata/metadata/evaluation
-      - name: display results
-        run: cat ./simdata/metadata/evaluation/mechanics_res.csv
+          ssd: ./path/sys1.ssd ./path/sys2.ssd
             
         
         
