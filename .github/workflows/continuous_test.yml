@@ -15,18 +15,21 @@ jobs:
           ./install_prerequisites.sh
           node ./ssv_to_ssd_inline.js -i ../../systems/dc_motor_system.ssd -o ../../systems/dc_motor_system.ssd
           cat ../../systems/dc_motor_system.ssd
-      - name: install openmcx prerequisites
-        run: |
-          sudo apt update
-          sudo apt install -y cmake git
-          sudo apt install -y build-essential
-          sudo apt install -y python-is-python3
-          sudo apt install -y libxml2-dev zlib1g-dev
-      - name: checkout openmcx
-        uses: localhorst87/run-openmcx@v0
+      - name: run openmcx
+        uses: localhorst87/run-openmcx@v0.1
         with: 
-          ssd: ./path/sys1.ssd ./path/sys2.ssd
-        
+          ssd: ./simdata/systems/dc_motor_system.ssd
+      - name: display results
+        run: cat ./results/mechanics_res.csv
+                      
+                  
+                  
+                    
+                  
+                
+            
+            
+          
         
           
         
