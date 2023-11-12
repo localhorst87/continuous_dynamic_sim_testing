@@ -10,29 +10,18 @@ jobs:
         with: 
           path: 'simdata'
       - name: integrate SSV in SSD
+        # generating 2 files, for testing the run-openmcx
         working-directory: simdata/util/ssv_ssd_integrator
         run: |
           ./install_prerequisites.sh
-          node ./ssv_to_ssd_inline.js -i ../../systems/dc_motor_system.ssd -o ../../systems/dc_motor_system.ssd
-          cat ../../systems/dc_motor_system.ssd
+          node ./ssv_to_ssd_inline.js -i ../../systems/dc_motor_system.ssd -o ../../systems/dc_motor_system_1.ssd
+          node ./ssv_to_ssd_inline.js -i ../../systems/dc_motor_system.ssd -o ../../systems/dc_motor_system_2.ssd
       - name: run openmcx
-        uses: localhorst87/run-openmcx@v0.1
+        uses: localhorst87/run-openmcx@v0.2.0
         with: 
           ssd: ./simdata/systems/dc_motor_system.ssd
+          resultDir: ./simdata/results/
       - name: display results
-        run: cat ./results/mechanics_res.csv
-                      
-                  
-                  
-                    
-                  
-                
-            
-            
-          
-        
-          
-        
-      
-  
-  
+        run: |
+          cat ./simdata/results/dc_motor_system_1/mechanics_res.csv
+          cat ./simdata/results/dc_motor_system_2/electrics_res.csv
