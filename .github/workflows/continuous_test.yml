@@ -19,7 +19,7 @@ jobs:
       - name: run openmcx
         uses: localhorst87/run-openmcx@v0.2.0
         with: 
-          ssd: ./simdata/systems/dc_motor_system.ssd
+          ssd: ./simdata/systems/dc_motor_system_1.ssd ./simdata/systems/dc_motor_system_2.ssd
           resultDir: ./simdata/results/
       - name: display results
         run: |
