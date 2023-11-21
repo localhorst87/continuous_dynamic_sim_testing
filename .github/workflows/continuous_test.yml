@@ -14,12 +14,13 @@ jobs:
         working-directory: simdata/util/ssv_ssd_integrator
         run: |
           ./install_prerequisites.sh
-          node ./ssv_to_ssd_inline.js -i ../../systems/dc_motor_system.ssd -o ../../systems/dc_motor_system_1.ssd
-          node ./ssv_to_ssd_inline.js -i ../../systems/dc_motor_system.ssd -o ../../systems/dc_motor_system_2.ssd
+          mkdir ../../systems/variations
+          node ./ssv_to_ssd_inline.js -i ../../systems/ssd/dc_motor_system.ssd -o ../../systems/variations/dc_motor_system_1.ssd
+          node ./ssv_to_ssd_inline.js -i ../../systems/ssd/dc_motor_system.ssd -o ../../systems/variations/dc_motor_system_2.ssd
       - name: run openmcx
-        uses: localhorst87/run-openmcx@v0.2.0
+        uses: localhorst87/run-openmcx@v0.3.0
         with: 
-          ssd: ./simdata/systems/dc_motor_system_1.ssd ./simdata/systems/dc_motor_system_2.ssd
+          ssd: ./simdata/systems/variations
           resultDir: ./simdata/results/
       - name: display results
         run: |
