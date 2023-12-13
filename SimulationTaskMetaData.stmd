@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<stmd:SimulationTaskMetaData xmlns:stmd="http://apps.pmsf.net/STMD/SimulationTaskMetaData"
+    xmlns:stc="http://apps.pmsf.net/SSPTraceability/SSPTraceabilityCommon"
+    xmlns:ssc="http://ssp-standard.org/SSP1/SystemStructureCommon"
+    xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://apps.pmsf.net/STMD/SimulationTaskMetaData https://raw.githubusercontent.com/PMSFIT/SSPTraceability/v1.0-beta2/STMD.xsd"
+    version="0.3" name="CSP-DC-Motor" GUID="6d9b7dde-57fe-4e68-b016-3eaba05f07db" description=""
+    generationTool="SETLabs STMD Writer" generationDateAndTime="2023-11-22T15:20:57.845Z">
+    <stmd:GeneralInformation></stmd:GeneralInformation>
+    <stmd:AnalysisPhase/>
+    <stmd:RequirementsPhase/>
+    <stmd:DesignPhase/>
+    <stmd:ImplementationPhase>
+        <stmd:ImplementModel>
+            <stc:Rationale>
+                <stc:Resource kind="rationale" type="text/xml" id="credibility_implement_models">
+                    <stc:Content>
+                        <cdk:Credibility>
+                            <cdk:Processing description="create baseline SSD file with inline SSV parameters for electrics plausi tests">
+                                <cdk:Prerequisites source="./documents/implementation/credibility/ssv_ssd_integrator/install_prerequisites.sh"/>
+                                <cdk:ComplexProcessing
+                                    method="nodejs"
+                                    source="./documents/implementation/credibility/ssv_ssd_integrator/ssv_to_ssd_inline.js"/>
+                                <cdk:Inputs>
+                                    <cdk:CommandLineArgument content="-i ./documents/implementation/credibility/level_1/plausibility_checks/test_electrics/systems/template.ssd"/>
+                                </cdk:Inputs>
+                                <cdk:Outputs>
+                                    <cdk:Output 
+                                        description="file where the returning string should be written to"
+                                        type="text/xml"
+                                        path="./documents/implementation/credibility/level_1/plausibility_checks/test_electrics/systems/baseline.ssd"/>
+                                </cdk:Outputs>
+                            </cdk:Processing>
+                            <cdk:Processing description="changes the SSV parameter file with R = 0.4 Ohm instead of R = 0.2 Ohm">
+                                <cdk:SimpleProcessing
+                                    packageUri="./Credibility-Assessment-Framework/Credibility-Development-Kit/util/ssv-crud"
+                                    function="changeParameter"
+                                    id="preprocessing-increase-resistance"/>
+                                <cdk:Inputs>
+                                    <cdk:FunctionArgument name="ssvString" method="file" source="./resources/parameters/electrics.ssv"/>
+                                    <cdk:FunctionArgument name="parameterName" method="inline" content="R"/>
+                                    <cdk:FunctionArgument name="value" method="inline" content="0.4"/>
+                                </cdk:Inputs>
+                                <cdk:Outputs description="location where output of the changeParameter string should be stored as a new SSV file">
+                                    <cdk:Return type="text/xml" path="./documents/implementation/credibility/level_1/plausibility_checks/test_electrics/electrics.ssv"/>
+                                </cdk:Outputs>
+                            </cdk:Processing>
+                            <cdk:Processing description="run simulation for electrics plausi checks">
+                                <cdk:ComplexProcessing method="github-action" source="localhorst87/run-openmcx@v0.3.0" id="simulation_run_electric"/>
+                                <cdk:Inputs>
+                                    <!-- Note: method="inline" is correct here, as the github action argument "ssd" requires the PATH of the file, NOT the content! -->
+                                    <cdk:FunctionArgument
+                                        name="ssd"
+                                        method="inline"
+                                        content="./documents/implementation/credibility/level_1/plausibility_checks/test_electrics/systems"/>
+                                    <cdk:FunctionArgument
+                                        name="resultDir"
+                                        method="inline"
+                                        content="./documents/implementation/credibility/level_1/plausibility_checks/test_electrics/results"/>
+                                </cdk:Inputs>
+                            </cdk:Processing>
+                            <cdk:Processing description="transform electrics baseline results for usage in metrics">
+                                <cdk:SimpleProcessing
+                                    packageUri="./Credibility-Assessment-Framework/Credibility-Development-Kit/adapter/openmcx-csv-adapter"
+                                    function="translate"
+                                    id="preprocessing_electrics_translate_baseline_results"/>
+                                <cdk:Inputs>
+                                    <cdk:FunctionArgument name="translate" method="inline" source="./documents/implementation/credibility/level_1/plausibility_checks/test_electrics/results/baseline/electrics_res.csv"/>
+                                </cdk:Inputs>
+                                <cdk:Outputs description="location where translated csv shall be stored">
+                                    <cdk:Return type="text/json" path="./documents/implementation/credibility/level_1/plausibility_checks/test_electrics/results/baseline/electrics_res.json"/>
+                                </cdk:Outputs>
+                            </cdk:Processing>
+                            <cdk:Processing description="transform R increased results for usage in metrics">
+                                <cdk:SimpleProcessing
+                                    packageUri="./Credibility-Assessment-Framework/Credibility-Development-Kit/adapter/openmcx-csv-adapter"
+                                    function="translate"
+                                    id="preprocessing_electrics_translate_R_results"/>
+                                <cdk:Inputs>
+                                    <cdk:FunctionArgument name="translate" method="inline" source="./documents/implementation/credibility/level_1/plausibility_checks/test_electrics/results/R_increased/electrics_res.csv"/>
+                                </cdk:Inputs>
+                                <cdk:Outputs description="location where translated csv shall be stored">
+                                    <cdk:Return type="text/json" path="./documents/implementation/credibility/level_1/plausibility_checks/test_electrics/results/R_increased/electrics_res.json"/>
+                                </cdk:Outputs>
+                            </cdk:Processing>
+                            <cdk:Evidence level="1">
+                                <cdk:Metric 
+                                    packageUri="./Credibility-Assessment-Framework/Credibility-Development-Kit/implementation/level_1"
+                                    function="checkPlausibility">
+                                    <cdk:Test id="plausibility_increase_R">
+                                        <cdk:FunctionArgument
+                                            name="resultsBaseline"
+                                            method="file"
+                                            type="application/json"
+                                            source="./documents/implementation/credibility/level_1/plausibility_checks/test_electrics/results/baseline/electrics_res.json"/>
+                                        <cdk:FunctionArgument
+                                            name="resultsVariation"
+                                            method="file"
+                                            type="application/json"
+                                            source="./documents/implementation/credibility/level_1/plausibility_checks/test_electrics/results/R_increased/electrics_res.json"/>"
+                                        <cdk:FunctionArgument
+                                            name="parameterModification"
+                                            method="file"
+                                            type="application/json"
+                                            source="./documents/implementation/credibility/level_1/plausibility_checks/test_electrics/parameter_modification_R.json"/>
+                                    </cdk:Test>                               
+                                </cdk:Metric>
+                            </cdk:Evidence>
+                        </cdk:Credibility>
+                    </stc:Content>
+                </stc:Resource>
+            </stc:Rationale>
+        </stmd:ImplementModel>
+    </stmd:ImplementationPhase>
+    <stmd:ExecutionPhase/>
+    <stmd:EvaluationPhase/>
+</stmd:SimulationTaskMetaData>

@@ -5,7 +5,7 @@
       <ssv:Real unit="H" value="0.001"/>
     </ssv:Parameter>
     <ssv:Parameter name="R">
-      <ssv:Real unit="Ω" value="0.2"/>
+      <ssv:Real unit="Ohm" value="0.2"/>
     </ssv:Parameter>
     <ssv:Parameter name="c_mot">
       <ssv:Real unit="N*m/A" value="0.03"/>

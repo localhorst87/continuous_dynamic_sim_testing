@@ -16,17 +16,15 @@ const ATTRIBUTES_TO_REMOVE_FROM_PARAMETERSET = [
     "generationDateAndTime"
 ];
 
-let ssdFileIn, ssdFileOut;
+let ssdFileIn;
 
 for (let i = 0; i < process.argv.length; i++) {
     if (process.argv[i] === "-i" || process.argv[i] === "--input")
         ssdFileIn = process.argv[i+1];
-    if (process.argv[i] === "-o" || process.argv[i] === "--output")
-        ssdFileOut = process.argv[i+1];
 }
 
-if (ssdFileIn === undefined || ssdFileOut === undefined)
-    throw("ssd input file and desired output file path must be given, use -i or --input and -o or --output")
+if (ssdFileIn === undefined)
+    throw("ssd input file must be given, use -i or --input")
 
 const ssdString = fs.readFileSync(ssdFileIn, "utf-8");
 let parsedSsd = parseSSD(ssdString);
@@ -70,7 +68,7 @@ for (let i = 0; i < parsedSsd["ssd:SystemStructureDescription"]["ssd:System"][0]
 }
 
 const newSsdString = writeSSD(parsedSsd);
-fs.writeFileSync(ssdFileOut, newSsdString);
+process.stdout.write(newSsdString);
 
 /**
  * 
