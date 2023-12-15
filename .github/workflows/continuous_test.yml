@@ -42,7 +42,7 @@ jobs:
       - name: preprocessing_electrics_translate_baseline_results
         run: node -e 'process.stdout.write(require("./util/wrapper/fcnWrapper.js").wrapper("./Credibility-Assessment-Framework/Credibility-Development-Kit/adapters/openmcx-csv-adapter", "translate", ["inline"], ["./test/results/baseline/electrics_res.csv"]))' > ./test/results/baseline/electrics_res.json
       - name: preprocessing_electrics_translate_R_results
-        run: node -e 'process.stdout.write(require("./util/wrapper/fcnWrapper.js").wrapper("./Credibility-Assessment-Framework/Credibility-Development-Kit/adapters/openmcx-csv-adapter", "translate", ["inline"], ["./results/R_increased/electrics_res.csv"]))' > ./test/results/R_increased/electrics_res.json
+        run: node -e 'process.stdout.write(require("./util/wrapper/fcnWrapper.js").wrapper("./Credibility-Assessment-Framework/Credibility-Development-Kit/adapters/openmcx-csv-adapter", "translate", ["inline"], ["./test/results/R_increased/electrics_res.csv"]))' > ./test/results/R_increased/electrics_res.json
       - name: install CDK module
         run: npm install --prefix ./Credibility-Assessment-Framework/Credibility-Development-Kit/metrics/implementation/level_1 ./Credibility-Assessment-Framework/Credibility-Development-Kit/metrics/implementation/level_1
       - name: plausibility_increase_R
