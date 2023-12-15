@@ -48,4 +48,4 @@ jobs:
       - name: plausibility_increase_R
         run: node -e 'process.stdout.write(JSON.stringify(require("./util/wrapper/fcnWrapper.js").wrapper("./Credibility-Assessment-Framework/Credibility-Development-Kit/metrics/implementation/level_1", "checkPlausibility", ["file","file","file"], ["./test/results/baseline/electrics_res.json","./test/results/R_increased/electrics_res.json","./credibility/parameter_modification_R.json"])))' >> ./credibility_assessment.json
       - name: test report
-        run: cat ./output.json >> $GITHUB_STEP_SUMMARY
+        run: cat ./credibility_assessment.json >> $GITHUB_STEP_SUMMARY
