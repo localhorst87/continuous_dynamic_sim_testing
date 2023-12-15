@@ -195,7 +195,7 @@ function translateEvidenceElement(element, outputPath) {
             // compose step
             steps.push({
                 name: test.attributes.id,
-                run: "node -e 'process.stdout.write(require(\"./util/wrapper/fcnWrapper.js\").wrapper(\"" + metric.attributes.packageUri + "\", \"" + metric.attributes.function + "\", [" + functionMethods.join(",") + "], [" + functionArgs.join(",") + "]))' >> " + outputPath
+                run: "node -e 'process.stdout.write(JSON.stringify(require(\"./util/wrapper/fcnWrapper.js\").wrapper(\"" + metric.attributes.packageUri + "\", \"" + metric.attributes.function + "\", [" + functionMethods.join(",") + "], [" + functionArgs.join(",") + "])))' >> " + outputPath
             });
         }
     }
