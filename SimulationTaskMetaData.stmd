@@ -94,7 +94,7 @@
                                     function="translate"
                                     id="preprocessing_electrics_translate_R_results"/>
                                 <cdk:Inputs>
-                                    <cdk:FunctionArgument name="translate" method="inline" content="./results/R_increased/electrics_res.csv"/>
+                                    <cdk:FunctionArgument name="translate" method="inline" content="./test/results/R_increased/electrics_res.csv"/>
                                 </cdk:Inputs>
                                 <cdk:Outputs description="location where translated csv shall be stored">
                                     <cdk:Return type="text/json" path="./test/results/R_increased/electrics_res.json"/>
