@@ -77,7 +77,7 @@ for (let i = 0; i < steps.length; i++) {
 // add summary step
 yaml_struct.jobs.preprocessing_and_tests.steps.push({
     name: "test report",
-    run: "cat ./output.json >> $GITHUB_STEP_SUMMARY"
+    run: "cat " + outputFile + " >> $GITHUB_STEP_SUMMARY"
 });
 
 let yaml_string = yaml.stringify(yaml_struct);
