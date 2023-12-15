@@ -8,7 +8,11 @@ jobs:
             - name: checkout simulation data
               uses: actions/checkout@v4
             - name: install prerequisites
-              run: sudo ./util/stmd/install_prerequisites.sh
+              run: |
+                cd util/stmd
+                npm install yaml
+                cd ../..
+                npm install --prefix ./Credibility-Assessment-Framework/Credibility-Development-Kit/util/stmd-crud ./Credibility-Assessment-Framework/Credibility-Development-Kit/util/stmd-crud
             - name: parse STMD file
               run: node ./util/stmd/parse.js --stmd "$(cat ./SimulationTaskMetaData.stmd)" > cdk_elements.json
             - name: create test pipeline
