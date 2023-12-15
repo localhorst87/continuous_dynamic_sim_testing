@@ -8,7 +8,7 @@ jobs:
             - name: checkout simulation data
               uses: actions/checkout@v4
             - name: install prerequisites
-              run: cd ./util/stmd/install_prerequisites.sh
+              run: ./util/stmd/install_prerequisites.sh
             - name: parse STMD file
               run: node ./util/stmd/parse.js --stmd "$(cat ./SimulationTaskMetaData.stmd)" > cdk_elements.json
             - name: create test pipeline
