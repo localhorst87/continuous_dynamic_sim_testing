@@ -6,11 +6,42 @@ on:
     types:
       - completed
 jobs:
-  preprocessing-and-tests:
+  preprocessing_and_tests:
     runs-on: ubuntu-20.04
     steps:
       - name: checkout repo
         uses: actions/checkout@v4
+        with:
+          submodules: true
       - name: install CDK modules
         working-directory: Credibility-Assessment-Framework/Credibility-Development-Kit
         run: find . -maxdepth 4 -name package.json -exec sh -c 'for file do dir=${file%/*}; npm install --prefix $dir $dir; done' sh {} +
+      - name: install prerequisites
+        run: sudo ./util/ssv_ssd_integrator/install_prerequisites.sh
+      - name: install prerequisites
+        run: mkdir test; mkdir test/systems; cp -r ./systems ./test/systems_template
+      - name: create baseline SSD file with inline SSV parameters for elec...
+        run: node ./util/ssv_ssd_integrator/ssv_to_ssd_inline.js -i ./systems/dc_motor_system.ssd > ./test/systems/baseline.ssd
+      - name: install prerequisites
+        run: cp -r ./parameters ./test/parameters
+      - name: preprocessing-increase-resistance
+        run: node -e 'process.stdout.write(require("./util/wrapper/fcnWrapper.js").wrapper("./Credibility-Assessment-Framework/Credibility-Development-Kit/util/ssv-crud", "changeParameter", ["file","inline","inline"], ["./parameters/electrics.ssv","R","0.4"]))' > ./test/parameters/electrics.ssv
+      - name: create adapted (with R = 0.4 Ohm) SSD file with inline SSV p...
+        run: node ./util/ssv_ssd_integrator/ssv_to_ssd_inline.js -i ./test/systems_template/dc_motor_system.ssd > ./test/systems/R_increased.ssd
+      - name: install prerequisites
+        run: cp -r ./models ./test/models
+      - name: simulation_run_electric
+        uses: localhorst87/run-openmcx@v0.3.0
+        with:
+          ssd: ./test/systems
+          resultDir: ./test/results
+      - name: preprocessing_electrics_translate_baseline_results
+        run: node -e 'process.stdout.write(require("./util/wrapper/fcnWrapper.js").wrapper("./Credibility-Assessment-Framework/Credibility-Development-Kit/adapter/openmcx-csv-adapter", "translate", ["inline"], ["./test/results/baseline/electrics_res.csv"]))' > ./test/results/baseline/electrics_res.json
+      - name: preprocessing_electrics_translate_R_results
+        run: node -e 'process.stdout.write(require("./util/wrapper/fcnWrapper.js").wrapper("./Credibility-Assessment-Framework/Credibility-Development-Kit/adapter/openmcx-csv-adapter", "translate", ["inline"], ["./results/R_increased/electrics_res.csv"]))' > ./test/results/R_increased/electrics_res.json
+      - name: install CDK module
+        run: npm install --prefix ./Credibility-Assessment-Framework/Credibility-Development-Kit/metrics/implementation/level_1 ./Credibility-Assessment-Framework/Credibility-Development-Kit/metrics/implementation/level_1
+      - name: plausibility_increase_R
+        run: node -e 'process.stdout.write(require("./util/wrapper/fcnWrapper.js").wrapper("./Credibility-Assessment-Framework/Credibility-Development-Kit/metrics/implementation/level_1", "checkPlausibility", ["file","file","file"], ["./test/results/baseline/electrics_res.json","./test/results/R_increased/electrics_res.json","./credibility/parameter_modification_R.json"]))' >> ./credibility_assessment.json
+      - name: test report
+        run: cat ./output.json >> $GITHUB_STEP_SUMMARY
