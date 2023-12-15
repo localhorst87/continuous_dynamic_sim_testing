@@ -25,6 +25,13 @@ steps.push({
     }        
 });
 steps.push({
+    "name": "Install compatible node version",
+    "uses": "actions/setup-node@v3",
+    "with": {
+        "node-version": 16
+    }          
+})
+steps.push({
     "name": "install CDK modules",
     "working-directory": "Credibility-Assessment-Framework/Credibility-Development-Kit",
     "run": "find . -maxdepth 4 -name package.json -exec sh -c 'for file do dir=${file%/*}; npm install --prefix $dir $dir; done' sh {} +"
