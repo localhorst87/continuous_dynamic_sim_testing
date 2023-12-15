@@ -1,0 +1,27 @@
+name: create-pipeline
+on: [push]
+
+jobs:
+    rw:
+        runs-on: ubuntu-20.04
+        steps:
+            - name: checkout simulation data
+              uses: actions/checkout@v4
+            - name: install prerequisites
+              run: cd ./util/stmd/install_prerequisites.sh
+            - name: parse STMD file
+              run: node ./util/stmd/parse.js --stmd "$(cat ./SimulationTaskMetaData.stmd)" > cdk_elements.json
+            - name: create test pipeline
+              run: node ./util/stmd/create_yaml.js -c "$(cat ./cdk_elements.json)" -o ./credibility_assessment.json > ./.github/workflows/continuous_test.yml
+            - name: push new test pipeline
+              # The push will NOT trigger an infinite loop, see https://docs.github.com/en/actions/security-guides/automatic-token-authentication#using-the-github_token-in-a-workflow
+              run: |
+                git config --global user.name "Automated Test Pipeline"
+                git config --global user.email "localhorst87@users.noreply.github.com"
+                git add ./.github/workflows/continuous_test.yml
+                git commit -m "Generated new automated test pipeline, based on STMD"
+                git push
+            - name: display result
+              run: |
+                echo "Successfully created new test pipeline:" >> $GITHUB_STEP_SUMMARY
+                cat ./.github/workflows/continuous_test.yml >> $GITHUB_STEP_SUMMARY

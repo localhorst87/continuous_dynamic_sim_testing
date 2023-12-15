@@ -1,28 +1,16 @@
-name: continuous-dynamic-simulation-testing
-on: workflow_dispatch
-
+name: testing-pipeline
+on:
+  workflow_run:
+    workflows:
+      - create-pipeline
+    types:
+      - completed
 jobs:
-  run-simulation:
+  preprocessing-and-tests:
     runs-on: ubuntu-20.04
     steps:
-      - name: checkout simulation data
+      - name: checkout repo
         uses: actions/checkout@v4
-        with: 
-          path: 'simdata'
-      - name: integrate SSV in SSD
-        # generating 2 files, for testing the run-openmcx
-        working-directory: simdata/util/ssv_ssd_integrator
-        run: |
-          ./install_prerequisites.sh
-          mkdir ../../systems/variations
-          node ./ssv_to_ssd_inline.js -i ../../systems/dc_motor_system.ssd -o ../../systems/variations/dc_motor_system_1.ssd
-          node ./ssv_to_ssd_inline.js -i ../../systems/dc_motor_system.ssd -o ../../systems/variations/dc_motor_system_2.ssd
-      - name: run openmcx
-        uses: localhorst87/run-openmcx@v0.3.0
-        with: 
-          ssd: ./simdata/systems/variations
-          resultDir: ./simdata/results/
-      - name: display results
-        run: |
-          cat ./simdata/results/dc_motor_system_1/mechanics_res.csv
-          cat ./simdata/results/dc_motor_system_2/electrics_res.csv
+      - name: install CDK modules
+        working-directory: Credibility-Assessment-Framework/Credibility-Development-Kit
+        run: find . -maxdepth 4 -name package.json -exec sh -c 'for file do dir=${file%/*}; npm install --prefix $dir $dir; done' sh {} +

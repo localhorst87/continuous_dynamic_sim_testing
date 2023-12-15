@@ -1,1 +1,1 @@
-npm i fast-xml-parser@4.1.3
+npm i --prefix ./util/ssv_ssd_integrator fast-xml-parser@4.1.3
