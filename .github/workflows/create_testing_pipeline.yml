@@ -12,7 +12,7 @@ jobs:
               uses: actions/checkout@v4
               with: 
                 submodules: true
-                token: ${{ secrets.WORKFLOW_WRITE_TOKEN }}
+                token: ${{ secrets.WRITE_WORKFLOW }}
             - name: install prerequisites
               run: |
                 cd util/stmd
