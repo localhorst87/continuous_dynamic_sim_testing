@@ -5,4 +5,4 @@ npm install
 
 cd $currDir
 
-npm install yaml
+npm install yaml 
