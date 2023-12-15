@@ -78,7 +78,7 @@
                             </cdk:Processing>
                             <cdk:Processing description="transform electrics baseline results for usage in metrics">
                                 <cdk:SimpleProcessing
-                                    packageUri="./Credibility-Assessment-Framework/Credibility-Development-Kit/adapter/openmcx-csv-adapter"
+                                    packageUri="./Credibility-Assessment-Framework/Credibility-Development-Kit/adapters/openmcx-csv-adapter"
                                     function="translate"
                                     id="preprocessing_electrics_translate_baseline_results"/>
                                 <cdk:Inputs>
@@ -90,7 +90,7 @@
                             </cdk:Processing>
                             <cdk:Processing description="transform R increased results for usage in metrics">
                                 <cdk:SimpleProcessing
-                                    packageUri="./Credibility-Assessment-Framework/Credibility-Development-Kit/adapter/openmcx-csv-adapter"
+                                    packageUri="./Credibility-Assessment-Framework/Credibility-Development-Kit/adapters/openmcx-csv-adapter"
                                     function="translate"
                                     id="preprocessing_electrics_translate_R_results"/>
                                 <cdk:Inputs>
