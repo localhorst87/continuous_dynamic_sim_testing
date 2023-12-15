@@ -4,7 +4,7 @@
     xmlns:ssc="http://ssp-standard.org/SSP1/SystemStructureCommon"
     xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://apps.pmsf.net/STMD/SimulationTaskMetaData https://raw.githubusercontent.com/PMSFIT/SSPTraceability/v1.0-beta2/STMD.xsd"
-    version="0.3" name="sandbox-test" GUID="6d9b7dde-57fe-4e68-b016-3eaba05f07db" description=""
+    version="0.3" name="sandbox-test" GUID="6d9b7dde-57fe-4e68-b016-3eaba05f07db" description="testing automated generation of another pipeline"
     generationTool="manual" generationDateAndTime="2023-11-22T15:20:57.845Z">
     <stmd:GeneralInformation></stmd:GeneralInformation>
     <stmd:AnalysisPhase/>
