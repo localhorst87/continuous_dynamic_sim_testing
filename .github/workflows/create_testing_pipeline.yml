@@ -1,5 +1,8 @@
 name: create-pipeline
-on: [push]
+on:
+  push:
+    paths-ignore:
+      - '.github/workflows/**'
 
 jobs:
     rw:
@@ -9,7 +12,7 @@ jobs:
               uses: actions/checkout@v4
               with: 
                 submodules: true
-                token: ${{ secrets.GITHUB_TOKEN }}
+                token: ${{ secrets.WORKFLOW_WRITE_TOKEN }}
             - name: install prerequisites
               run: |
                 cd util/stmd
