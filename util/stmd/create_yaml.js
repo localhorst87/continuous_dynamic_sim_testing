@@ -19,7 +19,10 @@ let steps = [];
 // add basic steps
 steps.push({
     "name": "checkout repo",
-    "uses": "actions/checkout@v4"
+    "uses": "actions/checkout@v4",
+    "with": {
+        "submodules": true
+    }        
 });
 steps.push({
     "name": "install CDK modules",
