@@ -12,7 +12,7 @@
     "influenced_variable": {
         "name": "M_el",
         "model_reference": "electrics",
-        "expectation": "<=",
+        "expectation": "<",
         "timepoints_to_check": {
             "start": 1.0
         },

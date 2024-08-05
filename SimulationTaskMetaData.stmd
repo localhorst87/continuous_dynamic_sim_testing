@@ -16,7 +16,7 @@
                 <stc:Resource kind="rationale" type="text/xml" id="credibility_implement_models">
                     <stc:Content>
                         <cdk:Credibility>
-                            <cdk:Processing description="create baseline SSD file with inline SSV parameters for electrics plausi tests">
+                            <cdk:Processing description="create baseline SSD with inline SSV parameters for electrics plausi tests">
                                 <cdk:Prerequisites method="bash" source="sudo ./util/ssv_ssd_integrator/install_prerequisites.sh"/>
                                 <cdk:Prerequisites method="bash" source="mkdir test; mkdir test/systems; cp -r ./systems ./test/systems_template"/>
                                 <cdk:ComplexProcessing
