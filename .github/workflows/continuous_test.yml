@@ -24,7 +24,7 @@ jobs:
         run: sudo ./util/ssv_ssd_integrator/install_prerequisites.sh
       - name: install prerequisites
         run: mkdir test; mkdir test/systems; cp -r ./systems ./test/systems_template
-      - name: create baseline SSD file with inline SSV parameters for elec...
+      - name: create baseline SSD with inline SSV parameters for electrics...
         run: node ./util/ssv_ssd_integrator/ssv_to_ssd_inline.js -i ./systems/dc_motor_system.ssd > ./test/systems/baseline.ssd
       - name: install prerequisites
         run: cp -r ./parameters ./test/parameters
